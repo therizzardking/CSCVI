@@ -10,8 +10,24 @@
     <body>
         <div class="wrapper">
             <h1>
-                <a href="{% url 'articles:list' %}"><img src="{% static 'poopoo.png' %}"></a>
+                <a href="{% url 'home' %}"><img src="{% static 'poopoo.png' %}"></a>
             </h1>
+            <nav>
+                <ul>
+                    {% if user.is_authenticated %}
+                    <li>
+                        <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">logout</button>
+                        </form>
+                    </li>
+                    <li><a href="{% url 'articles:create' %}" class="highlight">New Article</a></li>
+                    {% else %}
+                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a href="{% url 'accounts:signup' %}">signup</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
             {% block content %}
             {% endblock %}
         </div>
